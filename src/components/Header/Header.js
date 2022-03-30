@@ -14,7 +14,7 @@ const Header = () => {
           </Link>
         </div>
         <div
-          className={` absolute top-[80px] w-full bg-white py-6 px-3 lg:p-0 lg:static lg:mt-0 duration-300 ease-in z-30 ${
+          className={` absolute top-[80px] w-full lg:w-auto bg-white py-6 px-3 lg:p-0 lg:static lg:mt-0 duration-300 ease-in z-30 ${
             open ? "left-[-400px]" : "left-[0px]"
           }`}
         >
