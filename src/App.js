@@ -18,7 +18,7 @@ function App() {
         <Route path="/coins" element={<Coins />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/about" element={<About />} />
-        <Route path="/detail" element={<CoinDetail />} />
+        <Route path="/coin-details/:id" element={<CoinDetail />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />
