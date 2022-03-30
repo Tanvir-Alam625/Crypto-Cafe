@@ -11,7 +11,7 @@ const Header = () => {
           </Link>
         </div>
         <div className="nav-items ">
-          <ul className="flex flex-col lg:flex-row py-8 lg:py-0 ">
+          <ul className="flex flex-col lg:flex-row py-8 lg:py-0">
             <li className="mr-8 text-xl hover:text-teal-300 cursor-pointer  pl-3">
               Home
             </li>
