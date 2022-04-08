@@ -8,6 +8,11 @@ import Coins from "./components/main/Coins/Coins";
 import Contact from "./components/main/Contact/Contact";
 import Home from "./components/main/Home/Home";
 import NotFound from "./components/main/NotFound/NotFound";
+import { getAuth } from "firebase/auth";
+import app from "./firebase.init";
+import Login from "./components/Login/Login";
+
+const auth = getAuth(app);
 
 function App() {
   return (
@@ -19,6 +24,7 @@ function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/about" element={<About />} />
         <Route path="/coin-details/:id" element={<CoinDetail />} />
+        <Route path="/login" element={<Login />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />

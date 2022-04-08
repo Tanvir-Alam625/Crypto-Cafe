@@ -10,7 +10,7 @@ const Home = () => {
         </h1>
         <Link
           to="/coins"
-          className="py-2 px-6 text-white mt-3 rounded-full bg-cyan-600"
+          className="py-2 px-6 text-white mt-3 rounded-full bg-cyan-600 hover:bg-cyan-400 duration-200 ease-in"
         >
           Explore Coins
         </Link>

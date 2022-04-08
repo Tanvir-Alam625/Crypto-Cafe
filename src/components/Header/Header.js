@@ -52,6 +52,14 @@ const Header = () => {
                 About
               </li>
             </CustomLink>
+            <CustomLink to="/login">
+              <li
+                onClick={() => setOpen(!open)}
+                className="mr-8 mb-4 lg:mb-0 text-xl hover:text-teal-300 cursor-pointer  pl-3"
+              >
+                Login
+              </li>
+            </CustomLink>
           </ul>
         </div>
         <MenuAlt4Icon
