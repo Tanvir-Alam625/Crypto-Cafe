@@ -6,6 +6,7 @@ import {
   sendEmailVerification,
   signInWithPopup,
   signOut,
+  updateProfile,
 } from "firebase/auth";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
@@ -21,6 +22,7 @@ const SignUp = () => {
   const [user, setUser] = useState({});
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
   // error message state
   const [errorE, setErrorE] = useState("");
   const [errorP, setErrorP] = useState("");
@@ -86,6 +88,7 @@ const SignUp = () => {
         const user = res.user;
         setUser(user);
         verifyEmail();
+        userProfile();
         console.log(user);
       })
       .catch((error) => {
@@ -102,6 +105,11 @@ const SignUp = () => {
     } else {
       setErrorE(" Please enter the valid email!!");
     }
+  };
+  // name auth function
+  const handleNameBlur = (event) => {
+    setName(event.target.value);
+    console.log(event.target.value);
   };
   // password auth function
   const handlePassBlur = (event) => {
@@ -128,6 +136,18 @@ const SignUp = () => {
       console.log("email verification");
     });
   };
+  const userProfile = () => {
+    updateProfile(auth.currentUser, {
+      displayName: name,
+    })
+      .then(() => {
+        console.log("updated profile");
+      })
+      .catch((error) => {
+        console.log();
+      });
+  };
+
   //@@@@@@@
   // jsx
   //@@@@@@@
@@ -156,6 +176,15 @@ const SignUp = () => {
             <h2 className="text-4xl font-semibold text-center text-cyan-300">
               SignUp Now
             </h2>
+            <input
+              type="Name"
+              name="Name"
+              id="User Name"
+              placeholder="User Name"
+              className="py-2 border-2 rounded my-4 w-full px-2 "
+              onBlur={handleNameBlur}
+              required
+            />
             <input
               type="email"
               name="email"
