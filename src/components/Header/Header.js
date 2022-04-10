@@ -52,12 +52,12 @@ const Header = () => {
                 About
               </li>
             </CustomLink>
-            <CustomLink to="/login">
+            <CustomLink to="/signup">
               <li
                 onClick={() => setOpen(!open)}
                 className="mr-8 mb-4 lg:mb-0 text-xl hover:text-teal-300 cursor-pointer  pl-3"
               >
-                Login
+                SignUp
               </li>
             </CustomLink>
           </ul>

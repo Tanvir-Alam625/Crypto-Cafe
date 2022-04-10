@@ -3,17 +3,20 @@ import {
   getAuth,
   GithubAuthProvider,
   GoogleAuthProvider,
+  sendEmailVerification,
   signInWithPopup,
   signOut,
 } from "firebase/auth";
 import React, { useState } from "react";
-import app from "../../firebase.init";
+import { Link } from "react-router-dom";
+import app from "../../../firebase.init";
+import SignIn from "../SignIn/SignIn";
 import GoogleIcon from "./1534129544.png";
 import GithubIcon from "./25231.png";
 const auth = getAuth(app);
 
 //login function handler
-const Login = () => {
+const SignUp = () => {
   // all use state
   const [user, setUser] = useState({});
   const [email, setEmail] = useState("");
@@ -73,6 +76,7 @@ const Login = () => {
     // password validation
     if (!/(?=.*[!@#$%^&*])/.test(password)) {
       setErrorP("please password must be one spacial character!");
+      return;
     }
     setErrorE("");
     setErrorP("");
@@ -81,9 +85,12 @@ const Login = () => {
       .then((res) => {
         const user = res.user;
         setUser(user);
+        verifyEmail();
+        console.log(user);
       })
       .catch((error) => {
-        console.error(error);
+        console.error(error.code);
+        setErrorE(error.message);
       });
   };
   // email auth function
@@ -115,6 +122,15 @@ const Login = () => {
     }
     console.log(event.target.value);
   };
+  // Email verification
+  const verifyEmail = () => {
+    sendEmailVerification(auth.currentUser).then(() => {
+      console.log("email verification");
+    });
+  };
+  //@@@@@@@
+  // jsx
+  //@@@@@@@
   return (
     <div className="flex flex-col  items-center ">
       {user.uid ? (
@@ -172,6 +188,16 @@ const Login = () => {
             />
             <p className="text-red-500">{errorPC}</p>
             <br />
+            <p>
+              Already SignUp?
+              <Link
+                to="/signin"
+                className="cursor-pointer text-cyan-300 font-semibold "
+                element={<SignIn />}
+              >
+                Sign In
+              </Link>
+            </p>
             <button className="p-2 text-center border-2 rounded capitalize text-xl text-white bg-cyan-500 hover:bg-cyan-400 duration-150 ease-in w-full mt-4">
               SignUp
             </button>
@@ -181,7 +207,7 @@ const Login = () => {
             onClick={handleBtnGoogle}
           >
             <img src={GoogleIcon} alt="google" className="w-8 mr-4" />
-            sign in with google
+            sign up with google
           </button>
           <br />
           <button
@@ -189,7 +215,7 @@ const Login = () => {
             onClick={handleGithubSignInBtn}
           >
             <img src={GithubIcon} alt="google" className="w-8 mr-4" />
-            sign in with github
+            sign up with github
           </button>
         </>
       )}
@@ -197,4 +223,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default SignUp;
