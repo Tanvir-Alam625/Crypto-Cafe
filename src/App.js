@@ -12,6 +12,7 @@ import { getAuth } from "firebase/auth";
 import app from "./firebase.init";
 import SignUp from "./components/main/Signup/Signup";
 import SignIn from "./components/main/SignIn/SignIn";
+import ResetPassword from "./components/main/ResetPassword/ResetPassword";
 
 const auth = getAuth(app);
 
@@ -27,6 +28,7 @@ function App() {
         <Route path="/coin-details/:id" element={<CoinDetail />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/signin" element={<SignIn />} />
+        <Route path="/reset" element={<ResetPassword />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />

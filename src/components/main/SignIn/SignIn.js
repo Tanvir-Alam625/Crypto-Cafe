@@ -6,6 +6,7 @@ import {
   signInWithPopup,
 } from "firebase/auth";
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import app from "../../../firebase.init";
 import GoogleIcon from "./1534129544.png";
 import GithubIcon from "./25231.png";
@@ -94,6 +95,9 @@ const SignIn = () => {
         />
         <br />
         <p className="text-red-500">{error}</p>
+        <Link to="/reset">
+          <h2 className="text-cyan-500">Forget Password?</h2>
+        </Link>
         <button className="p-2 text-center border-2 rounded capitalize text-xl text-white bg-cyan-500 hover:bg-cyan-400 duration-150 ease-in w-full mt-4">
           SignIn
         </button>
