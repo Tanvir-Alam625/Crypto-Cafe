@@ -13,6 +13,7 @@ import app from "./firebase.init";
 import SignUp from "./components/main/Signup/Signup";
 import SignIn from "./components/main/SignIn/SignIn";
 import ResetPassword from "./components/main/ResetPassword/ResetPassword";
+import RequiredAuth from "./components/main/RequiredAuth/RequiredAuth";
 
 const auth = getAuth(app);
 
@@ -22,7 +23,14 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/coins" element={<Coins />} />
+        <Route
+          path="/coins"
+          element={
+            <RequiredAuth>
+              <Coins />
+            </RequiredAuth>
+          }
+        />
         <Route path="/contact" element={<Contact />} />
         <Route path="/about" element={<About />} />
         <Route path="/coin-details/:id" element={<CoinDetail />} />

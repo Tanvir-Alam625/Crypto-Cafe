@@ -9,6 +9,7 @@ import {
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import app from "../../../firebase.init";
+import useFirebase from "../../../hooks/useFirebase";
 import GoogleIcon from "./1534129544.png";
 import GithubIcon from "./25231.png";
 import FacebookIcon from "./786-7860566_icons-media-youtube-computer-facebook-social-official-facebook.png";
@@ -21,48 +22,9 @@ const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-
-  // firebase provider
-  const providerGoogle = new GoogleAuthProvider();
-  const providerGithub = new GithubAuthProvider();
-  const providerFacebook = new FacebookAuthProvider();
-  // sign in with facebook
-  const handleFacebookSignInBtn = () => {
-    signInWithPopup(auth, providerFacebook)
-      .then((res) => {
-        setUser(res.user);
-        console.log(res.user);
-      })
-      .catch((error) => {
-        console.log(error.code);
-      });
-  };
-  // sign in with github function
-  const handleGithubSignInBtn = () => {
-    signInWithPopup(auth, providerGithub)
-      .then((res) => {
-        setUser(res.user);
-        console.log(res.user);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
-
-  // sign in google function
-  const handleBtnGoogle = () => {
-    signInWithPopup(auth, providerGoogle)
-      .then((result) => {
-        const user = result.user;
-        setUser(user);
-        console.log(user);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+  const { handleGoogleSignIn, handleFacebookSignIn, handleGithubSignIn } =
+    useFirebase();
   // email auth function
-
   const handleEmailBlur = (event) => {
     setEmail(event.target.value);
   };
@@ -121,7 +83,7 @@ const SignIn = () => {
         <div className="sing-with-btn my-4 flex i w-full justify-around">
           <button
             className="px-2 py-2 lg:px-6 lg:py-8 justify-center h-12 text-center border-2 rounded capitalize  text-xl mb-2 flex  items-center  text-gray-600"
-            onClick={handleBtnGoogle}
+            onClick={handleGoogleSignIn}
             title="sign up with google"
           >
             <img src={GoogleIcon} alt="google" className="w-8 " />
@@ -129,14 +91,14 @@ const SignIn = () => {
           <br />
           <button
             className="px-2 py-2 lg:px-6 lg:py-8 justify-center h-12 border-2 rounded capitalize items-center text-xl flex text-gray-600 mb-6"
-            onClick={handleGithubSignInBtn}
+            onClick={handleGithubSignIn}
             title="sign up with github"
           >
             <img src={GithubIcon} alt="google" className="w-8 " />
           </button>
           <button
             className="px-2 py-2 lg:px-6 lg:py-8 justify-center h-12 border-2 rounded capitalize items-center text-xl flex text-gray-600"
-            onClick={handleFacebookSignInBtn}
+            onClick={handleFacebookSignIn}
             title="sign up with facebook"
           >
             <img src={FacebookIcon} alt="google" className="w-8 " />

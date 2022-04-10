@@ -2,10 +2,15 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { MenuAlt4Icon } from "@heroicons/react/solid";
 import CustomLink from "../main/CustomLink/CustomLink";
-import useFirebase from "../../hooks/useFirebase";
+// import useFirebase from "../../hooks/useFirebase";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { getAuth, signOut } from "firebase/auth";
+import app from "../../firebase.init";
+const auth = getAuth(app);
 const Header = () => {
   const [open, setOpen] = useState(true);
-  const { myUser, handleSignOut } = useFirebase();
+  // const { myUser, handleSignOut } = useFirebase();
+  const [user] = useAuthState(auth);
   return (
     <div className="my-2">
       <nav className="py-4 px-8 lg:px-20 lg:py-8 flex  bg-white flex-col lg:flex-row justify-between w-full lg:items-center">
@@ -54,15 +59,15 @@ const Header = () => {
                 About
               </li>
             </CustomLink>
-            {myUser?.uid ? (
+            {user?.uid ? (
               <>
                 <img
-                  src={myUser.photoURL}
+                  src={user.photoURL}
                   alt="userImg"
                   className="w-8 rounded-full"
-                  title={myUser.displayName}
+                  title={user.displayName}
                 />
-                <button onClick={handleSignOut}>signOut</button>
+                <button onClick={() => signOut(auth)}>signOut</button>
               </>
             ) : (
               <CustomLink to="/signup">

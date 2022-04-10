@@ -24,6 +24,7 @@ const SignUp = () => {
   const [name, setName] = useState("");
   const { handleGoogleSignIn, handleFacebookSignIn, handleGithubSignIn } =
     useFirebase();
+  // react firebase
   // error message state
   const [errorE, setErrorE] = useState("");
   const [errorP, setErrorP] = useState("");
