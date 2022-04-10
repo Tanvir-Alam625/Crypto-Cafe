@@ -1,17 +1,14 @@
 import {
   createUserWithEmailAndPassword,
-  FacebookAuthProvider,
   getAuth,
-  GithubAuthProvider,
-  GoogleAuthProvider,
   sendEmailVerification,
-  signInWithPopup,
   signOut,
   updateProfile,
 } from "firebase/auth";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import app from "../../../firebase.init";
+import useFirebase from "../../../hooks/useFirebase";
 import SignIn from "../SignIn/SignIn";
 import GoogleIcon from "./1534129544.png";
 import GithubIcon from "./25231.png";
@@ -25,59 +22,22 @@ const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
+  const { handleGoogleSignIn, handleFacebookSignIn, handleGithubSignIn } =
+    useFirebase();
   // error message state
   const [errorE, setErrorE] = useState("");
   const [errorP, setErrorP] = useState("");
   const [errorPC, setErrorPC] = useState("");
-  // firebase provider
-  const providerGoogle = new GoogleAuthProvider();
-  const providerGithub = new GithubAuthProvider();
-  const providerFacebook = new FacebookAuthProvider();
-  // sign in with facebook
-  const handleFacebookSignInBtn = () => {
-    signInWithPopup(auth, providerFacebook)
-      .then((res) => {
-        setUser(res.user);
-        console.log(res.user);
-      })
-      .catch((error) => {
-        console.log(error.code);
-      });
-  };
-  // sign in with github function
-  const handleGithubSignInBtn = () => {
-    signInWithPopup(auth, providerGithub)
-      .then((res) => {
-        setUser(res.user);
-        console.log(res.user);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
-
-  // sign in google function
-  const handleBtnGoogle = () => {
-    signInWithPopup(auth, providerGoogle)
-      .then((result) => {
-        const user = result.user;
-        setUser(user);
-        console.log(user);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
   //sign out function handler
-  const handleSignOut = () => {
-    signOut(auth)
-      .then((res) => {
-        setUser({});
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
+  // const handleSignOut = () => {
+  //   signOut(auth)
+  //     .then((res) => {
+  //       setUser({});
+  //     })
+  //     .catch((error) => {
+  //       console.error(error);
+  //     });
+  // };
   //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
   // login form submit function
   // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -167,110 +127,90 @@ const SignUp = () => {
   //@@@@@@@
   return (
     <div className="flex flex-col  items-center ">
-      {user.uid ? (
-        <div className="user-info flex flex-col justify-center">
-          <img
-            src={user.photoURL}
-            alt="user-img"
-            className="h-12 w-12 rounded-full  "
-          />
-          <h2>{user.displayName}</h2>
-          <p>{user.email && user.email}</p>
-          <button
-            className="p-4 text-center border-2 rounded capitalize text-xl"
-            onClick={handleSignOut}
+      {/* form section  */}
+      <form onSubmit={handleFormSubmit} className="w-1/3 mb-8">
+        <h2 className="text-4xl font-semibold text-center text-cyan-300">
+          SignUp Now
+        </h2>
+        <input
+          type="Name"
+          name="Name"
+          id="User Name"
+          placeholder="User Name"
+          className="py-2 border-2 rounded my-4 w-full px-2 "
+          onBlur={handleNameBlur}
+          required
+        />
+        <input
+          type="email"
+          name="email"
+          id="email"
+          placeholder="Email"
+          className="py-2 border-2 rounded my-4 w-full px-2 "
+          onBlur={handleEmailBlur}
+          required
+        />
+        <p className="text-red-500 text-xl">{errorE}</p>
+        <br />
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+          id="password"
+          className="py-2 border-2 rounded mb-2  w-full px-2"
+          onBlur={handlePassBlur}
+          required
+        />
+        <p className="text-red-500">{errorP}</p>
+        <br />
+        <input
+          type="password"
+          name="cpass"
+          id="Cpass"
+          className="py-2 border-2 rounded mb-2  w-full px-2"
+          placeholder="Confirm Password"
+          onChange={handleConfirmPassOnChange}
+        />
+        <p className="text-red-500">{errorPC}</p>
+        <br />
+        <p>
+          Already SignUp?
+          <Link
+            to="/signin"
+            className="cursor-pointer text-cyan-300 font-semibold  "
+            element={<SignIn />}
           >
-            signOut
+            Sign In
+          </Link>
+        </p>
+        <button className="p-2 text-center border-2 rounded capitalize text-xl text-white bg-cyan-500 hover:bg-cyan-400 duration-150 ease-in w-full my-4">
+          SignUp
+        </button>
+        <div className="sing-with-btn my-4 flex i w-full justify-around">
+          <button
+            className="px-2 py-2 lg:px-6 lg:py-8 justify-center h-12 text-center border-2 rounded capitalize  text-xl mb-2 flex  items-center  text-gray-600"
+            onClick={handleGoogleSignIn}
+            title="sign up with google"
+          >
+            <img src={GoogleIcon} alt="google" className="w-8 " />
+          </button>
+          <br />
+          <button
+            className="px-2 py-2 lg:px-6 lg:py-8 justify-center h-12 border-2 rounded capitalize items-center text-xl flex text-gray-600 mb-6"
+            onClick={handleGithubSignIn}
+            title="sign up with github"
+          >
+            <img src={GithubIcon} alt="google" className="w-8 " />
+          </button>
+          <button
+            className="px-2 py-2 lg:px-6 lg:py-8 justify-center h-12 border-2 rounded capitalize items-center text-xl flex text-gray-600"
+            onClick={handleFacebookSignIn}
+            title="sign up with facebook"
+          >
+            <img src={FacebookIcon} alt="google" className="w-8 " />
           </button>
         </div>
-      ) : (
-        <>
-          {/* form section  */}
-          <form onSubmit={handleFormSubmit} className="w-1/3 mb-8">
-            <h2 className="text-4xl font-semibold text-center text-cyan-300">
-              SignUp Now
-            </h2>
-            <input
-              type="Name"
-              name="Name"
-              id="User Name"
-              placeholder="User Name"
-              className="py-2 border-2 rounded my-4 w-full px-2 "
-              onBlur={handleNameBlur}
-              required
-            />
-            <input
-              type="email"
-              name="email"
-              id="email"
-              placeholder="Email"
-              className="py-2 border-2 rounded my-4 w-full px-2 "
-              onBlur={handleEmailBlur}
-              required
-            />
-            <p className="text-red-500 text-xl">{errorE}</p>
-            <br />
-            <input
-              type="password"
-              name="password"
-              placeholder="Password"
-              id="password"
-              className="py-2 border-2 rounded my-4  w-full px-2"
-              onBlur={handlePassBlur}
-              required
-            />
-            <p className="text-red-500">{errorP}</p>
-            <br />
-            <input
-              type="password"
-              name="cpass"
-              id="Cpass"
-              className="py-2 border-2 rounded my-4  w-full px-2"
-              placeholder="Confirm Password"
-              onChange={handleConfirmPassOnChange}
-            />
-            <p className="text-red-500">{errorPC}</p>
-            <br />
-            <p>
-              Already SignUp?
-              <Link
-                to="/signin"
-                className="cursor-pointer text-cyan-300 font-semibold  "
-                element={<SignIn />}
-              >
-                Sign In
-              </Link>
-            </p>
-            <button className="p-2 text-center border-2 rounded capitalize text-xl text-white bg-cyan-500 hover:bg-cyan-400 duration-150 ease-in w-full my-4">
-              SignUp
-            </button>
-            <div className="sing-with-btn my-4 flex i w-full justify-around">
-              <button
-                className="px-2 py-2 lg:px-6 lg:py-8 justify-center h-12 text-center border-2 rounded capitalize  text-xl mb-2 flex  items-center  text-gray-600"
-                onClick={handleBtnGoogle}
-                title="sign up with google"
-              >
-                <img src={GoogleIcon} alt="google" className="w-8 " />
-              </button>
-              <br />
-              <button
-                className="px-2 py-2 lg:px-6 lg:py-8 justify-center h-12 border-2 rounded capitalize items-center text-xl flex text-gray-600 mb-6"
-                onClick={handleGithubSignInBtn}
-                title="sign up with github"
-              >
-                <img src={GithubIcon} alt="google" className="w-8 " />
-              </button>
-              <button
-                className="px-2 py-2 lg:px-6 lg:py-8 justify-center h-12 border-2 rounded capitalize items-center text-xl flex text-gray-600"
-                onClick={handleFacebookSignInBtn}
-                title="sign up with facebook"
-              >
-                <img src={FacebookIcon} alt="google" className="w-8 " />
-              </button>
-            </div>
-          </form>
-        </>
-      )}
+      </form>
     </div>
   );
 };

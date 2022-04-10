@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { MenuAlt4Icon } from "@heroicons/react/solid";
 import CustomLink from "../main/CustomLink/CustomLink";
+import useFirebase from "../../hooks/useFirebase";
 const Header = () => {
   const [open, setOpen] = useState(true);
+  const { myUser, handleSignOut } = useFirebase();
   return (
     <div className="my-2">
       <nav className="py-4 px-8 lg:px-20 lg:py-8 flex  bg-white flex-col lg:flex-row justify-between w-full lg:items-center">
@@ -52,14 +54,26 @@ const Header = () => {
                 About
               </li>
             </CustomLink>
-            <CustomLink to="/signup">
-              <li
-                onClick={() => setOpen(!open)}
-                className="mr-8 mb-4 lg:mb-0 text-xl hover:text-teal-300 cursor-pointer  pl-3"
-              >
-                SignUp
-              </li>
-            </CustomLink>
+            {myUser?.uid ? (
+              <>
+                <img
+                  src={myUser.photoURL}
+                  alt="userImg"
+                  className="w-8 rounded-full"
+                  title={myUser.displayName}
+                />
+                <button onClick={handleSignOut}>signOut</button>
+              </>
+            ) : (
+              <CustomLink to="/signup">
+                <li
+                  onClick={() => setOpen(!open)}
+                  className="mr-8 mb-4 lg:mb-0 text-xl hover:text-teal-300 cursor-pointer  pl-3"
+                >
+                  SignUp
+                </li>
+              </CustomLink>
+            )}
           </ul>
         </div>
         <MenuAlt4Icon
