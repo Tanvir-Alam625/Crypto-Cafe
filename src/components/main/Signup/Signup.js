@@ -1,5 +1,6 @@
 import {
   createUserWithEmailAndPassword,
+  FacebookAuthProvider,
   getAuth,
   GithubAuthProvider,
   GoogleAuthProvider,
@@ -14,6 +15,7 @@ import app from "../../../firebase.init";
 import SignIn from "../SignIn/SignIn";
 import GoogleIcon from "./1534129544.png";
 import GithubIcon from "./25231.png";
+import FacebookIcon from "./786-7860566_icons-media-youtube-computer-facebook-social-official-facebook (1).png";
 const auth = getAuth(app);
 
 //login function handler
@@ -30,6 +32,18 @@ const SignUp = () => {
   // firebase provider
   const providerGoogle = new GoogleAuthProvider();
   const providerGithub = new GithubAuthProvider();
+  const providerFacebook = new FacebookAuthProvider();
+  // sign in with facebook
+  const handleFacebookSignInBtn = () => {
+    signInWithPopup(auth, providerFacebook)
+      .then((res) => {
+        setUser(res.user);
+        console.log(res.user);
+      })
+      .catch((error) => {
+        console.log(error.code);
+      });
+  };
   // sign in with github function
   const handleGithubSignInBtn = () => {
     signInWithPopup(auth, providerGithub)
@@ -221,31 +235,40 @@ const SignUp = () => {
               Already SignUp?
               <Link
                 to="/signin"
-                className="cursor-pointer text-cyan-300 font-semibold "
+                className="cursor-pointer text-cyan-300 font-semibold  "
                 element={<SignIn />}
               >
                 Sign In
               </Link>
             </p>
-            <button className="p-2 text-center border-2 rounded capitalize text-xl text-white bg-cyan-500 hover:bg-cyan-400 duration-150 ease-in w-full mt-4">
+            <button className="p-2 text-center border-2 rounded capitalize text-xl text-white bg-cyan-500 hover:bg-cyan-400 duration-150 ease-in w-full my-4">
               SignUp
             </button>
+            <div className="sing-with-btn my-4 flex i w-full justify-around">
+              <button
+                className="px-2 py-2 lg:px-6 lg:py-8 justify-center h-12 text-center border-2 rounded capitalize  text-xl mb-2 flex  items-center  text-gray-600"
+                onClick={handleBtnGoogle}
+                title="sign up with google"
+              >
+                <img src={GoogleIcon} alt="google" className="w-8 " />
+              </button>
+              <br />
+              <button
+                className="px-2 py-2 lg:px-6 lg:py-8 justify-center h-12 border-2 rounded capitalize items-center text-xl flex text-gray-600 mb-6"
+                onClick={handleGithubSignInBtn}
+                title="sign up with github"
+              >
+                <img src={GithubIcon} alt="google" className="w-8 " />
+              </button>
+              <button
+                className="px-2 py-2 lg:px-6 lg:py-8 justify-center h-12 border-2 rounded capitalize items-center text-xl flex text-gray-600"
+                onClick={handleFacebookSignInBtn}
+                title="sign up with facebook"
+              >
+                <img src={FacebookIcon} alt="google" className="w-8 " />
+              </button>
+            </div>
           </form>
-          <button
-            className="p-2 text-center border-2 rounded capitalize items-center text-xl mb-2 flex text-gray-600"
-            onClick={handleBtnGoogle}
-          >
-            <img src={GoogleIcon} alt="google" className="w-8 mr-4" />
-            sign up with google
-          </button>
-          <br />
-          <button
-            className="p-2 text-center border-2 rounded capitalize items-center text-xl flex text-gray-600"
-            onClick={handleGithubSignInBtn}
-          >
-            <img src={GithubIcon} alt="google" className="w-8 mr-4" />
-            sign up with github
-          </button>
         </>
       )}
     </div>
